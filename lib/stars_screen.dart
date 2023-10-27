@@ -19,96 +19,93 @@ class _StarsScreenState extends State<StarsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: Center(
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Drag the stars between the lists. ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text:
-                        "The stars will rotate in the order shown below when you click successively. To learn the name of a star for search, hover your mouse over the image.",
-                        style: TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                    ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Drag the stars between the lists. ",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text:
+                      "The stars will rotate in the order shown below when you click successively. To learn the name of a star for search, hover your mouse over the image.",
+                      style: TextStyle(fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Presets :",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        TextSpan(
+                          text: " 1 Star, 4 Star, All Stars",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, color: Colors.lightBlue),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Presets :",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text:
-                            " 1 Star, 4 Star, All Stars",
-                            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.lightBlue),
-                          ),
-                        ],
-                      ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("In Use :", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Expanded(
+                    child: DragTarget<DraggableStar>(
+                      onAccept: (star) {
+                        setState(() {
+                          inUseStars.add(star);
+                          notInUseStars.remove(star);
+                        });
+                      },
+                      builder: (context, candidateData, rejectedData) {
+                        return Row(
+                          children: inUseStars,
+                        );
+                      },
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("In Use :",style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              // "Not In Use" section with DragTarget
+              Row(
+                children: [
+                  Text("Not In Use :", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Expanded(
+                    child: DragTarget<DraggableStar>(
+                      onAccept: (star) {
+                        setState(() {
+                          notInUseStars.add(star);
+                          inUseStars.remove(star);
+                        });
+                      },
+                      builder: (context, candidateData, rejectedData) {
+                        return Row(
+                          children: notInUseStars,
+                        );
+                      },
                     ),
-                    Expanded(
-                      child: DragTarget<DraggableStar>(
-                        onAccept: (star) {
-                          setState(() {
-                            inUseStars.add(star);
-                            notInUseStars.remove(star);
-                          });
-                        },
-                        builder: (context, candidateData, rejectedData) {
-                          return Row(
-                            children: inUseStars,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-
-                // "Not In Use" section with DragTarget
-                Row(
-                  children: [
-                    Text("Not In Use :",style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: DragTarget<DraggableStar>(
-                        onAccept: (star) {
-                          setState(() {
-                            notInUseStars.add(star);
-                            inUseStars.remove(star);
-                          });
-                        },
-                        builder: (context, candidateData, rejectedData) {
-                          return Row(
-                            children: notInUseStars,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

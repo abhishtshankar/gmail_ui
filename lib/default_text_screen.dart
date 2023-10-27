@@ -20,17 +20,15 @@ class _DefaultTextState extends State<DefaultText> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Center(
-              child: Row(
-                children: [
-                  SizedBox(height: 110,),
-                  DropdownButton<String>(
-                    hint: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Font:"),
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: DropdownButton<String>(
+                    hint: Text("Font:"),
                     value: selectedFont,
                     items: fontNames.map((String fontName) {
                       return DropdownMenuItem<String>(
@@ -44,12 +42,11 @@ class _DefaultTextState extends State<DefaultText> {
                       });
                     },
                   ),
-                  SizedBox(width: 10),
-                  DropdownButton<String>(
-                    hint: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Size:"),
-                    ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButton<String>(
+                    hint: Text("Size:"),
                     value: selectedSize,
                     items: textSizes.map((String size) {
                       return DropdownMenuItem<String>(
@@ -65,14 +62,16 @@ class _DefaultTextState extends State<DefaultText> {
                         } else if (selectedSize == 'Huge') {
                           textSize = 24.0;
                         } else {
-                          textSize = 16.0;
+                          textSize = 18.0;
                         }
                       });
                     },
                   ),
-                  SizedBox(width: 10),
-                  DropdownButton<Color>(
-                    hint: Text("A"),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButton<Color>(
+                    hint: Text("Color:"),
                     value: textColor,
                     items: [
                       DropdownMenuItem(
@@ -99,9 +98,10 @@ class _DefaultTextState extends State<DefaultText> {
                       });
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            SizedBox(height: 20),
             Text(
               "Sample Text",
               style: selectedFont != null

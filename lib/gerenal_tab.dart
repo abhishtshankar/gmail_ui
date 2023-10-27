@@ -9,6 +9,8 @@ import 'package:gmail/widgets/custom_text_widget.dart';
 class GeneralTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.0),
@@ -16,40 +18,40 @@ class GeneralTabScreen extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 30),
+          SizedBox(height: screenWidth > 600 ? 60 : 30),
           GeneralTopicItem("Language & Phone numbers", () {
             // Open a dialog displaying the LanguageAndPhoneScreen content
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return LanguageAndPhoneScreenDialog();
+                return LanguageAndPhoneScreenDialog(screenWidth: screenWidth);
               },
             );
           }),
-          SizedBox(height: 30),
-          GeneralTopicItem("Default text" , (){
+          SizedBox(height: screenWidth > 600 ? 60 : 30),
+          GeneralTopicItem("Default text", () {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return DefaultTextDialog();
+                return DefaultTextDialog(screenWidth: screenWidth);
               },
             );
           }),
-          SizedBox(height: 30),
-          GeneralTopicItem("Stars", (){
+          SizedBox(height: screenWidth > 600 ? 60 : 30),
+          GeneralTopicItem("Stars", () {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return StarScreenDialog();
+                return StarScreenDialog(screenWidth: screenWidth);
               },
             );
           }),
-          SizedBox(height: 30),
-          GeneralTopicItem("Signature", (){
+          SizedBox(height: screenWidth > 600 ? 60 : 30),
+          GeneralTopicItem("Signature", () {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return SignatureDialog();
+                return SignatureDialog(screenWidth: screenWidth);
               },
             );
           }),
@@ -67,9 +69,12 @@ class GeneralTopicItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = screenWidth - 60;
+
     return Card(
       elevation: 4,
-      margin: EdgeInsets.all(30),
+      margin: EdgeInsets.all(screenWidth > 600 ? 60 : 30),
       child: ListTile(
         title: CustomText(title: topic),
         trailing: Icon(Icons.arrow_forward),
@@ -80,11 +85,20 @@ class GeneralTopicItem extends StatelessWidget {
 }
 
 class LanguageAndPhoneScreenDialog extends StatelessWidget {
+  final double screenWidth;
+
+  LanguageAndPhoneScreenDialog({required this.screenWidth});
+
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       title: Text("Language & Phone numbers"),
-      content: Container(height: 150,child: LanguageAndPhone()), // Replace with the content of your LanguageAndPhoneScreen
+      content: Container(
+        width: screenWidth > 600 ? 600 : screenWidth - 40,
+        height: 190,
+        child: LanguageAndPhone(),
+      ),
       actions: <Widget>[
         TextButton(
           child: Text("Close"),
@@ -98,11 +112,20 @@ class LanguageAndPhoneScreenDialog extends StatelessWidget {
 }
 
 class DefaultTextDialog extends StatelessWidget {
+  final double screenWidth;
+
+  DefaultTextDialog({required this.screenWidth});
+
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       title: Text("Default text"),
-      content: Container(height: 150,width: 950, child: DefaultText()),
+      content: Container(
+        width: 400,
+        height: 190,
+        child: DefaultText(),
+      ),
       actions: <Widget>[
         TextButton(
           child: Text("Close"),
@@ -116,11 +139,20 @@ class DefaultTextDialog extends StatelessWidget {
 }
 
 class StarScreenDialog extends StatelessWidget {
+  final double screenWidth;
+
+  StarScreenDialog({required this.screenWidth});
+
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       title: Text("Stars"),
-      content: Container(height: 200,width: 950, child: StarsScreen()),
+      content: Container(
+        width: screenWidth > 600 ? 600 : screenWidth - 40,
+        height: 250,
+        child: StarsScreen(),
+      ),
       actions: <Widget>[
         TextButton(
           child: Text("Close"),
@@ -134,11 +166,20 @@ class StarScreenDialog extends StatelessWidget {
 }
 
 class SignatureDialog extends StatelessWidget {
+  final double screenWidth;
+
+  SignatureDialog({required this.screenWidth});
+
   @override
   Widget build(BuildContext context) {
+
     return AlertDialog(
       title: Text("Signature"),
-      content: Container(height: 300,width: 950, child: SignatureScreen()),
+      content: Container(
+        width: screenWidth > 600 ? 600 : screenWidth - 40,
+        height: 300,
+        child: SignatureScreen(),
+      ),
       actions: <Widget>[
         TextButton(
           child: Text("Close"),
@@ -150,4 +191,3 @@ class SignatureDialog extends StatelessWidget {
     );
   }
 }
-
